@@ -65,6 +65,9 @@ public final class ServerConfig {
     public static final ConfigValue<String> UNSAFE_EFFECT;
     public static final IntValue UNSAFE_SECONDS;
     public static final IntValue SUPPLY_RANGE;
+    public static final IntValue REGEN_ABOVE;
+    public static final IntValue REGEN_INTERVAL;
+    public static final DoubleValue REGEN_EXHAUSTION;
     public static final DoubleValue DRAIN_MULTIPLIER;
     public static final DoubleValue ACTION_EXHAUSTION;
     public static final DoubleValue THIRST_EXHAUSTION_RATIO;
@@ -172,6 +175,9 @@ public final class ServerConfig {
                 "about 0.32 per turn, 5 turns per second). 1 = as hard as for a player.").defineInRange("actionExhaustion", 0.05, 0, 10);
         THIRST_EXHAUSTION_RATIO = b.comment("Thirst lost per point of exhaustion, relative to hunger (4 exhaustion = 1 point).")
                 .defineInRange("thirstExhaustionRatio", 1.0, 0, 10);
+        REGEN_ABOVE = b.comment("Workers heal while food (and water, if on) is at least this, like players at 18.").defineInRange("regenAbove", 18, 0, 20);
+        REGEN_INTERVAL = b.comment("Seconds between healing 1 HP.").defineInRange("regenInterval", 4, 1, 3600);
+        REGEN_EXHAUSTION = b.comment("Exhaustion per healed HP (player: 6.0; 4 = one food point).").defineInRange("regenExhaustion", 6.0, 0, 100);
         SUPPLY_RANGE = b.comment("Max distance between a worker and its supply chest, also for supply runs.").defineInRange("supplyRange", 32, 2, 256);
         SUPPLY_TAKE = b.comment("Items of food and of drink taken per supply run.").defineInRange("supplyTake", 4, 1, 64);
         STARVATION_DAMAGE = b.comment("Damage dealt when a need is at 0.").defineInRange("starvationDamage", 1.0, 0, 20);

@@ -24,7 +24,7 @@ public class WorkerNeeds {
     public static final float MAX = 20f;
 
     private float hunger = MAX, thirst = MAX;
-    private int starveTimer;
+    private int starveTimer, regenTimer;
     private float exhaustion, thirstExhaustion;
 
     /** Player-style exhaustion (4 = one point), from actions, damage and the Hunger effect. */
@@ -100,6 +100,19 @@ public class WorkerNeeds {
         if (!thirstOn) thirstExhaustion = 0;
         if (thirstOn && thirst < ServerConfig.DRINK_BELOW.get()) tryDrink(w);
         if (hungerOn && hunger < ServerConfig.EAT_BELOW.get()) tryEat(w);
+
+        // natural regeneration while well fed, paid in exhaustion like a player
+        int above = ServerConfig.REGEN_ABOVE.get();
+        boolean fed = (!hungerOn || hunger >= above) && (!thirstOn || thirst >= above);
+        if (fed && w.getHealth() < w.getMaxHealth() && w.isAlive()) {
+            if (++regenTimer >= ServerConfig.REGEN_INTERVAL.get()) {
+                regenTimer = 0;
+                w.heal(1f);
+                addExhaustion(ServerConfig.REGEN_EXHAUSTION.get().floatValue());
+            }
+        } else {
+            regenTimer = 0;
+        }
 
         if ((hungerOn && hunger <= 0) || (thirstOn && thirst <= 0)) {
             if (++starveTimer >= ServerConfig.STARVATION_INTERVAL.get()) {

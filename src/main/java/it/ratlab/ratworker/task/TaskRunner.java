@@ -25,6 +25,7 @@ public class TaskRunner implements TaskContext {
     private final WorkerEntity worker;
     @Nullable private WorkerTask task;
     @Nullable private ResourceLocation pendingId; // loaded from NBT, resolved on first tick
+    @Nullable private WorkerTask probe; // task being checked by canStart, so number() reads its values
     private CompoundTag state = new CompoundTag();
     private long ticksRunning;
     private int taskLevel = 1;
@@ -69,8 +70,13 @@ public class TaskRunner implements TaskContext {
         if (!TaskRules.enabled(t)) return TaskCheck.fail("ratworker.reason.task_disabled");
         if (worker.needs().anyEmpty()) return TaskCheck.fail(worker.needs().emptyReason());
         if (!isRunning() && WorkerTracker.activeCount() >= Settings.maxActiveWorkers()) return TaskCheck.fail("ratworker.reason.server_limit");
-        TaskCheck own = t.canStart(this);
-        return own == null ? TaskCheck.OK : own;
+        probe = t;
+        try {
+            TaskCheck own = t.canStart(this);
+            return own == null ? TaskCheck.OK : own;
+        } finally {
+            probe = null;
+        }
     }
 
     public TaskCheck start(WorkerTask t, @Nullable ServerPlayer by) {
@@ -180,7 +186,8 @@ public class TaskRunner implements TaskContext {
 
     @Override
     public double number(String key) {
-        return task == null ? 0 : TaskRules.number(task, key);
+        WorkerTask t = probe != null ? probe : task;
+        return t == null ? 0 : TaskRules.number(t, key);
     }
 
     @Override

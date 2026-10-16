@@ -81,6 +81,8 @@ public class RatWorkerJS {
     public void setNode(WorkerEntity w, String node, int level) { w.skills().setLevel(node, level); w.skills().applyAttributes(w); }
     /** ratworker:tome item that teaches the task. */
     public ItemStack tome(String task) { return TomeItem.of(ModItems.TOME.get(), id(task)); }
+    /** Built-in manual with its own XP cost (0 = free). */
+    public ItemStack tome(String task, int xp) { ItemStack s = tome(task); s.getOrCreateTag().putInt("Xp", xp); return s; }
 
     // ---- tasks ----
     /** Starts a task; returns an empty string on success or the reason. */

@@ -11,6 +11,7 @@ import it.ratlab.ratworker.item.TomeItem;
 import it.ratlab.ratworker.menu.WorkerInventoryMenu;
 import it.ratlab.ratworker.network.RWNetwork;
 import it.ratlab.ratworker.network.WorkerScreenData;
+import it.ratlab.ratworker.skill.Manuals;
 import it.ratlab.ratworker.skill.WorkerSkills;
 import it.ratlab.ratworker.supply.SupplyGoal;
 import it.ratlab.ratworker.task.TaskGoal;
@@ -276,13 +277,13 @@ public class WorkerEntity extends PathfinderMob {
         }
         if (sp.getUUID().equals(getOwnerId())) ownerName = sp.getGameProfile().getName();
         ItemStack held = sp.getItemInHand(hand);
-        if (held.getItem() instanceof TomeItem) {
-            TomeItem.teach(sp, this, held);
+        Manuals.Manual manual = Manuals.of(held);
+        if (manual != null) {
+            TomeItem.teach(sp, this, held, manual);
             return InteractionResult.CONSUME;
         }
         if (sp.isShiftKeyDown()) {
-            NetworkHooks.openScreen(sp, new SimpleMenuProvider((id, inv, p) -> new WorkerInventoryMenu(id, inv, this), getName()),
-                    buf -> buf.writeVarInt(getId()));
+            openInventory(sp);
         } else {
             RWNetwork.openCommandScreen(sp, WorkerScreenData.build(this, sp));
         }
@@ -308,6 +309,11 @@ public class WorkerEntity extends PathfinderMob {
             else ie.setItem(rest);
         }
         return n;
+    }
+
+    public void openInventory(ServerPlayer sp) {
+        NetworkHooks.openScreen(sp, new SimpleMenuProvider((id, inv, p) -> new WorkerInventoryMenu(id, inv, this), getName()),
+                buf -> buf.writeVarInt(getId()));
     }
 
     /** Puts a stack into the inventory or drops what does not fit. */

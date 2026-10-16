@@ -47,3 +47,10 @@ Tasks are extensible from KubeJS and from a Java addon API, and unlock through p
     versionRange="[0,)"
     ordering="AFTER"
     side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="jei"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"

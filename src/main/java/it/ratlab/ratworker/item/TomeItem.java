@@ -4,6 +4,7 @@ import it.ratlab.ratworker.api.WorkerTask;
 import it.ratlab.ratworker.api.WorkerTaskRegistry;
 import it.ratlab.ratworker.compat.Compat;
 import it.ratlab.ratworker.entity.WorkerEntity;
+import it.ratlab.ratworker.skill.Manuals;
 import it.ratlab.ratworker.skill.WorkerSkills;
 import it.ratlab.ratworker.task.TaskRules;
 import net.minecraft.ChatFormatting;
@@ -43,9 +44,9 @@ public class TomeItem extends Item {
         return t == null || !t.contains(TAG) ? null : ResourceLocation.tryParse(t.getString(TAG));
     }
 
-    /** Server side, from WorkerEntity.mobInteract. */
-    public static void teach(ServerPlayer player, WorkerEntity w, ItemStack stack) {
-        ResourceLocation id = taskId(stack);
+    /** Server side, from WorkerEntity.mobInteract, for any manual item (see Manuals). */
+    public static void teach(ServerPlayer player, WorkerEntity w, ItemStack stack, Manuals.Manual manual) {
+        ResourceLocation id = manual.task();
         WorkerTask task = id == null ? null : WorkerTaskRegistry.INSTANCE.get(id);
         if (task == null) {
             player.displayClientMessage(Component.translatable("ratworker.reason.unknown_task", String.valueOf(id)), true);
@@ -59,8 +60,8 @@ public class TomeItem extends Item {
             player.displayClientMessage(Component.translatable("ratworker.msg.already_knows", w.getName(), task.title()), true);
             return;
         }
-        int cost = WorkerSkills.learnCost(task);
-        if (w.skills().xp() < cost) {
+        int cost = manual.xp() >= 0 ? manual.xp() : WorkerSkills.learnCost(task);
+        if (cost > 0 && w.skills().xp() < cost) {
             player.displayClientMessage(Component.translatable("ratworker.reason.learn_xp", cost, (int) w.skills().xp()), true);
             return;
         }

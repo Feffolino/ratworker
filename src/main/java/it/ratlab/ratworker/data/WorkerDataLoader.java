@@ -24,6 +24,7 @@ import java.util.TreeMap;
  *   <li>{@code data/<ns>/ratworker/names/*.json}: {"names": ["Ada", ...]} merged into one pool</li>
  *   <li>{@code data/<ns>/ratworker/skins/*.json}: {"skins": [{"texture": "ns:textures/...png", "slim": false}]}</li>
  *   <li>{@code data/<ns>/ratworker/task/<id>.json}: numbers of task &lt;ns&gt;:&lt;id&gt;, e.g. {"hungerCost": 1.2, "range": 10}</li>
+ *   <li>{@code data/<ns>/ratworker/manual/<any>.json}: {"item": "ratlab:manual_crank", "task": "ratworker:crank", "xp": 0}</li>
  *   <li>{@code data/<ns>/ratworker/drink/<any>.json}: {"item": "minecraft:potion", "potion": "minecraft:water", "thirst": 6, "purity": 1}
  *       (potion and purity optional; purity 0..2, missing = the item's own Thirst Was Taken purity)</li>
  * </ul>
@@ -37,9 +38,13 @@ public class WorkerDataLoader extends SimplePreparableReloadListener<WorkerDataL
     /** potion may be null; purity -1 = take it from the stack (Thirst Was Taken NBT) or default. */
     public record Drink(ResourceLocation item, ResourceLocation potion, int thirst, int purity) {}
 
-    public record Data(List<String> names, List<Skin> skins, Map<ResourceLocation, Map<String, Double>> taskNumbers, List<Drink> drinks) {}
+    /** Any item that teaches a task; xp -1 = the task's learnXp. */
+    public record ManualDef(ResourceLocation item, ResourceLocation task, int xp) {}
 
-    private volatile Data data = new Data(List.of(), List.of(), Map.of(), List.of());
+    public record Data(List<String> names, List<Skin> skins, Map<ResourceLocation, Map<String, Double>> taskNumbers, List<Drink> drinks,
+                       List<ManualDef> manuals) {}
+
+    private volatile Data data = new Data(List.of(), List.of(), Map.of(), List.of(), List.of());
 
     public Data data() {
         return data;
@@ -51,6 +56,7 @@ public class WorkerDataLoader extends SimplePreparableReloadListener<WorkerDataL
         List<Skin> skins = new ArrayList<>();
         Map<ResourceLocation, Map<String, Double>> tasks = new HashMap<>();
         List<Drink> drinks = new ArrayList<>();
+        List<ManualDef> manuals = new ArrayList<>();
 
         forEachJson(rm, "ratworker/names", (id, json) -> {
             for (JsonElement e : GsonHelper.getAsJsonArray(json, "names")) names.add(e.getAsString());
@@ -78,7 +84,11 @@ public class WorkerDataLoader extends SimplePreparableReloadListener<WorkerDataL
                     potion.isEmpty() ? null : ResourceLocation.parse(potion),
                     GsonHelper.getAsInt(json, "thirst"), GsonHelper.getAsInt(json, "purity", -1)));
         });
-        return new Data(List.copyOf(names), List.copyOf(skins), Map.copyOf(tasks), List.copyOf(drinks));
+        forEachJson(rm, "ratworker/manual", (id, json) -> manuals.add(new ManualDef(
+                ResourceLocation.parse(GsonHelper.getAsString(json, "item")),
+                ResourceLocation.parse(GsonHelper.getAsString(json, "task")),
+                GsonHelper.getAsInt(json, "xp", -1))));
+        return new Data(List.copyOf(names), List.copyOf(skins), Map.copyOf(tasks), List.copyOf(drinks), List.copyOf(manuals));
     }
 
     @Override

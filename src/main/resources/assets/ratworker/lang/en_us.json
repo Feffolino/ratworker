@@ -23,8 +23,6 @@
   "ratworker.ui.owner": "Owner: %s",
   "ratworker.ui.start": "START",
   "ratworker.ui.stop": "STOP",
-  "ratworker.hud.food": "FOOD %s",
-  "ratworker.hud.water": "WATER %s",
   "ratworker.status.following": "Following",
   "ratworker.status.cant_reach": "Cannot reach you",
   "ratworker.status.holding": "Holding position",
@@ -103,12 +101,15 @@
   "ratworker.ui.no_branches": "No upgrades for this task",
   "ratworker.branch.health": "Health",
   "ratworker.branch.strength": "Strength",
-  "ratworker.branch.hunger": "Food use",
-  "ratworker.branch.thirst": "Water use",
+  "ratworker.branch.hunger": "Hunger",
+  "ratworker.branch.thirst": "Thirst",
   "ratworker.branch.speed": "Speed",
   "ratworker.cmd.skills_set": "Skills updated on %s worker(s)",
   "ratworker.status.farm_scanning": "Checking the field",
   "ratworker.status.farm_idle": "Field done, waiting",
   "ratworker.status.farm_working": "Working the field",
-  "ratworker.status.farm_storing": "Storing the harvest"
+  "ratworker.status.farm_storing": "Storing the harvest",
+  "ratworker.ui.inventory": "INVENTORY",
+  "jei.ratworker.contract": "Use on a block to recruit a worker there. The worker is bound to you: right-click it for orders, sneak + right-click for its inventory.",
+  "jei.ratworker.tome": "Training manual. Use it on a worker to teach it the task written on the manual. It may also cost some of the worker's XP."
 }

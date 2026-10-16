@@ -1,11 +1,7 @@
 package it.ratlab.ratworker.client;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix4f;
 
 /**
  * Classic HUD icons for a 0..20 need: 10 icons, full = 2 points, half = 1.
@@ -64,28 +60,5 @@ public final class NeedIcons {
             if (idx < level) g.blit(tex, ix, y, k.fullU, k.v, ICON, ICON, k.texW, k.texH);
             else if (idx == level) g.blit(tex, ix, y, k.halfU, k.v, ICON, ICON, k.texW, k.texH);
         }
-    }
-
-    /** World-space row (already oriented and scaled like a name tag), centered on x = 0. */
-    public static void drawInWorld(Matrix4f m, MultiBufferSource buffers, Kind k, float y, float value, int light) {
-        int level = (int) Math.ceil(value);
-        VertexConsumer vc = buffers.getBuffer(RenderType.text(k.texture()));
-        float x0 = -ROW_WIDTH / 2f;
-        for (int i = 0; i < 10; i++) {
-            float ix = x0 + i * 8;
-            int idx = i * 2 + 1;
-            quad(vc, m, k, ix, y, k.bgU, light, 0f);
-            if (idx < level) quad(vc, m, k, ix, y, k.fullU, light, 0f);
-            else if (idx == level) quad(vc, m, k, ix, y, k.halfU, light, 0f);
-        }
-    }
-
-    private static void quad(VertexConsumer vc, Matrix4f m, Kind k, float x, float y, int u, int light, float z) {
-        float u0 = u / (float) k.texW, u1 = (u + ICON) / (float) k.texW;
-        float v0 = k.v / (float) k.texH, v1 = (k.v + ICON) / (float) k.texH;
-        vc.vertex(m, x, y, z).color(255, 255, 255, 255).uv(u0, v0).uv2(light).endVertex();
-        vc.vertex(m, x, y + ICON, z).color(255, 255, 255, 255).uv(u0, v1).uv2(light).endVertex();
-        vc.vertex(m, x + ICON, y + ICON, z).color(255, 255, 255, 255).uv(u1, v1).uv2(light).endVertex();
-        vc.vertex(m, x + ICON, y, z).color(255, 255, 255, 255).uv(u1, v0).uv2(light).endVertex();
     }
 }

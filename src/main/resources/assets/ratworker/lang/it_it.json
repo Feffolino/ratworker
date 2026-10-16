@@ -23,8 +23,6 @@
   "ratworker.ui.owner": "Padrone: %s",
   "ratworker.ui.start": "AVVIA",
   "ratworker.ui.stop": "FERMA",
-  "ratworker.hud.food": "CIBO %s",
-  "ratworker.hud.water": "ACQUA %s",
   "ratworker.status.following": "Ti segue",
   "ratworker.status.cant_reach": "Non riesce a raggiungerti",
   "ratworker.status.holding": "Mantiene la posizione",
@@ -103,12 +101,15 @@
   "ratworker.ui.no_branches": "Nessun miglioramento per questo compito",
   "ratworker.branch.health": "Vita",
   "ratworker.branch.strength": "Forza",
-  "ratworker.branch.hunger": "Consumo cibo",
-  "ratworker.branch.thirst": "Consumo acqua",
+  "ratworker.branch.hunger": "Fame",
+  "ratworker.branch.thirst": "Sete",
   "ratworker.branch.speed": "Velocità",
   "ratworker.cmd.skills_set": "Abilità aggiornate su %s lavoratori",
   "ratworker.status.farm_scanning": "Controlla il campo",
   "ratworker.status.farm_idle": "Campo a posto, attende",
   "ratworker.status.farm_working": "Lavora il campo",
-  "ratworker.status.farm_storing": "Porta il raccolto alle scorte"
+  "ratworker.status.farm_storing": "Porta il raccolto alle scorte",
+  "ratworker.ui.inventory": "INVENTARIO",
+  "jei.ratworker.contract": "Usalo su un blocco per reclutare lì un lavoratore. Il lavoratore è tuo: clic destro per gli ordini, sneak + clic destro per il suo inventario.",
+  "jei.ratworker.tome": "Manuale di addestramento. Usalo su un lavoratore per insegnargli il compito scritto sul manuale. Può costare anche XP del lavoratore."
 }

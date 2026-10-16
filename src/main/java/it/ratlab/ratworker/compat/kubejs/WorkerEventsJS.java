@@ -8,6 +8,7 @@ import it.ratlab.ratworker.RatWorker;
 import it.ratlab.ratworker.api.WorkerTask;
 import it.ratlab.ratworker.api.WorkerTaskRegistry;
 import it.ratlab.ratworker.entity.WorkerEntity;
+import it.ratlab.ratworker.skill.Manuals;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.Nullable;
@@ -28,6 +29,7 @@ public final class WorkerEventsJS {
     public static final EventHandler REGISTER_TASKS = GROUP.server("registerTasks", () -> RegisterTasks.class);
     public static final EventHandler GAIN_XP = GROUP.server("gainXp", () -> GainXp.class).hasResult();
     public static final EventHandler LEARN = GROUP.server("learn", () -> Learn.class).hasResult();
+    public static final EventHandler MANUALS = GROUP.server("manuals", () -> RegisterManuals.class);
 
     private WorkerEventsJS() {}
 
@@ -38,6 +40,8 @@ public final class WorkerEventsJS {
         if (REGISTER_TASKS.hasListeners()) REGISTER_TASKS.post(ScriptType.SERVER, e);
         for (ScriptTaskBuilder b : e.builders) WorkerTaskRegistry.INSTANCE.registerScripted(b.build());
         RatWorker.LOG.info("Rat Worker: {} script tasks registered", e.builders.size());
+        Manuals.clearScripted();
+        if (MANUALS.hasListeners()) MANUALS.post(ScriptType.SERVER, new RegisterManuals());
     }
 
     /** Returns the XP to grant, 0 if a script cancelled it. */
@@ -62,6 +66,19 @@ public final class WorkerEventsJS {
             ScriptTaskBuilder b = new ScriptTaskBuilder(rl);
             builders.add(b);
             return b;
+        }
+    }
+
+    /** {@code WorkerEvents.manuals(e => e.add('ratlab:manual_crank', 'ratworker:crank', 0))}: any item teaches a task. */
+    public static class RegisterManuals extends EventJS {
+        /** xp -1 = the task's learnXp. */
+        public void add(String item, String task, int xp) {
+            ResourceLocation t = task.contains(":") ? ResourceLocation.parse(task) : ResourceLocation.fromNamespaceAndPath("ratworker", task);
+            Manuals.registerScripted(ResourceLocation.parse(item), t, xp);
+        }
+
+        public void add(String item, String task) {
+            add(item, task, -1);
         }
     }
 

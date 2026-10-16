@@ -58,6 +58,8 @@ public class CommandScreen extends Screen {
                 onClose(); // next right click on a container links it
             }
         }));
+        addRenderableWidget(new FlatButton(left + 6, top + H - 22, LIST_W, 16, Component.translatable("ratworker.ui.inventory"),
+                () -> send(RWNetwork.Action.OPEN_INVENTORY, "")));
         addRenderableWidget(new FlatButton(left + W - 58, top + 2, 52, 12,
                 Component.translatable(skillsView ? "ratworker.ui.status_tab" : "ratworker.ui.skills_tab"), () -> {
                     skillsView = !skillsView;
@@ -136,7 +138,7 @@ public class CommandScreen extends Screen {
     }
 
     private int visibleRows() {
-        return (H - HEADER - 22) / ROW;
+        return (H - HEADER - 22 - 20) / ROW; // leaves room for the INVENTORY button
     }
 
     @Override

@@ -49,7 +49,12 @@ public record WorkerScreenData(int entityId, Component name, int xp, List<NodeEn
         for (TaskEntry te : tasks) {
             WorkerTask t = WorkerTaskRegistry.INSTANCE.get(ResourceLocation.parse(te.id()));
             if (t == null) continue;
-            for (Branch b : t.branches()) if (!b.global) out.add(node(w, b, te.id()));
+            for (Branch b : t.branches()) {
+                if (b.global) continue;
+                if (b == Branch.HUNGER && !Settings.hungerEnabled()) continue;
+                if (b == Branch.THIRST && !Settings.thirstEnabled()) continue;
+                out.add(node(w, b, te.id()));
+            }
         }
         return out;
     }

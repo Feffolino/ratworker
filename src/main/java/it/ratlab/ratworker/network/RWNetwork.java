@@ -62,7 +62,7 @@ public final class RWNetwork {
         }
     }
 
-    public enum Action { REFRESH, START, STOP, LINK_SUPPLY, CLEAR_SUPPLY, UPGRADE }
+    public enum Action { REFRESH, START, STOP, LINK_SUPPLY, CLEAR_SUPPLY, UPGRADE, OPEN_INVENTORY }
 
     /** C2S: a player asks the server to do something with a worker. */
     public record ActionPacket(int entityId, Action action, String taskId) {
@@ -96,6 +96,10 @@ public final class RWNetwork {
                         return; // the client closed the screen so the player can click a container
                     }
                     case CLEAR_SUPPLY -> w.setSupply(null);
+                    case OPEN_INVENTORY -> {
+                        w.openInventory(player); // replaces the command screen
+                        return;
+                    }
                     case UPGRADE -> {
                         // taskId carries the node id; only nodes of known tasks (or worker-wide ones) can be bought
                         String node = taskId;

@@ -7,6 +7,7 @@ Compile-only dependencies, not committed. Copy these jars from a Minecraft 1.20.
 - ThirstWasTaken-1.20.1-1.4.0.jar
 - Jade-1.20.1-Forge-11.13.3.jar
 - Mekanism-1.20.1-10.4.16.80.jar
+- jei-1.20.1-forge-15.59.0.212.jar
 - ftb-teams-forge-2001.3.2.jar, ftb-library-forge-2001.2.13.jar, ftb-chunks-forge-2001.3.8.jar
 
 Every jar here is added as `modCompileOnly` and never bundled.
