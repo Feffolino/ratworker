@@ -1,9 +1,31 @@
+# Gradle / build output
 .gradle/
 build/
+out/
+bin/
 run/
+logs/
+*.log
+*.hprof
+
+# IDEs
 .idea/
 *.iml
-out/
-# third-party jars used only for compiling (take them from your instance mods/)
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Third-party jars used only for compiling (see libs/README.md)
 libs/*.jar
+
+# Local-only notes and publishing checklists
+SUMMARY.md
 PUBLISH_CURSEFORGE.md

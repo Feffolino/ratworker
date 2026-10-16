@@ -6,7 +6,7 @@ Documentation: see the [wiki](https://github.com/Feffolino/ratworker/wiki).
 
 ## Build
 
-Java 17. Put the compile-only jars listed in `libs/README.md` into `libs/`, then:
+Java 17 (the Gradle daemon looks for an installed JDK 17, see `gradle/gradle-daemon-jvm.properties`). Put the compile-only jars listed in `libs/README.md` into `libs/`, then:
 
 ```
 gradlew build
