@@ -155,10 +155,10 @@ public final class ServerConfig {
         b.comment("Hunger and thirst, both 0..20. Drain values are points per minute.").push("needs");
         HUNGER_ENABLED = b.comment("[preset] Hunger drains and matters.").defineEnum("hungerEnabled", TriState.PRESET);
         THIRST_ENABLED = b.comment("[preset] Thirst drains and matters. Ignored (always off) when Thirst Was Taken is not installed.").defineEnum("thirstEnabled", TriState.PRESET);
-        HUNGER_IDLE = b.comment("Hunger drain per minute with no task.").defineInRange("hungerDrainIdle", 0.2, 0, 20);
-        HUNGER_WORKING = b.comment("Hunger drain per minute while a task runs, multiplied by the task's hungerCost.").defineInRange("hungerDrainWorking", 0.6, 0, 20);
-        THIRST_IDLE = b.comment("Thirst drain per minute with no task.").defineInRange("thirstDrainIdle", 0.3, 0, 20);
-        THIRST_WORKING = b.comment("Thirst drain per minute while a task runs, multiplied by the task's thirstCost.").defineInRange("thirstDrainWorking", 0.8, 0, 20);
+        HUNGER_IDLE = b.comment("Hunger drain per minute with no task.").defineInRange("hungerDrainIdle", 0.3, 0, 20);
+        HUNGER_WORKING = b.comment("Hunger drain per minute while a task runs, multiplied by the task's hungerCost.").defineInRange("hungerDrainWorking", 1.0, 0, 20);
+        THIRST_IDLE = b.comment("Thirst drain per minute with no task.").defineInRange("thirstDrainIdle", 0.4, 0, 20);
+        THIRST_WORKING = b.comment("Thirst drain per minute while a task runs, multiplied by the task's thirstCost.").defineInRange("thirstDrainWorking", 1.2, 0, 20);
         EAT_BELOW = b.comment("Auto-eat from own inventory below this hunger.").defineInRange("eatBelow", 14, 0, 20);
         DRINK_BELOW = b.comment("Auto-drink from own inventory below this thirst.").defineInRange("drinkBelow", 14, 0, 20);
         LOW_THRESHOLD = b.comment("Below this a need counts as low: work slows down and the overhead warning shows.").defineInRange("lowThreshold", 6, 0, 20);
@@ -172,7 +172,7 @@ public final class ServerConfig {
         DRAIN_MULTIPLIER = b.comment("Global multiplier on all hunger/thirst loss (time drain and exhaustion). Higher = harder to keep workers going.")
                 .defineInRange("drainMultiplier", 1.5, 0, 20);
         ACTION_EXHAUSTION = b.comment("Share of the player exhaustion that simulated actions cause (a Create crank charges a player",
-                "about 0.32 per turn, 5 turns per second). 1 = as hard as for a player.").defineInRange("actionExhaustion", 0.05, 0, 10);
+                "about 0.32 per turn, 5 turns per second). 1 = as hard as for a player.").defineInRange("actionExhaustion", 0.1, 0, 10);
         THIRST_EXHAUSTION_RATIO = b.comment("Thirst lost per point of exhaustion, relative to hunger (4 exhaustion = 1 point).")
                 .defineInRange("thirstExhaustionRatio", 1.0, 0, 10);
         REGEN_ABOVE = b.comment("Workers heal while food (and water, if on) is at least this, like players at 18.").defineInRange("regenAbove", 18, 0, 20);

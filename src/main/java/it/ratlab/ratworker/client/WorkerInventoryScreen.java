@@ -13,7 +13,7 @@ public class WorkerInventoryScreen extends AbstractContainerScreen<WorkerInvento
     public WorkerInventoryScreen(WorkerInventoryMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
         imageWidth = 176;
-        imageHeight = 224;
+        imageHeight = 204;
         titleLabelY = 6;
         inventoryLabelY = WorkerInventoryMenu.PLAYER_Y - 10;
     }
@@ -28,12 +28,18 @@ public class WorkerInventoryScreen extends AbstractContainerScreen<WorkerInvento
             g.fill(x + s.x - 1, y + s.y - 1, x + s.x + 17, y + s.y + 17, UiColors.LINE);
             g.fill(x + s.x, y + s.y, x + s.x + 16, y + s.y + 16, UiColors.SLOT);
         }
-        // classic HUD rows under the equipment: hearts and food, water below food
+        // compact HUD block beside the equipment slots: hearts, food, water at 55 % size
         int flags = menu.flags();
-        int ny = y + WorkerInventoryMenu.NEEDS_Y, right = x + imageWidth - 7 - NeedIcons.ROW_WIDTH;
-        NeedIcons.drawHealth(g, x + 7, ny, menu.health(), menu.maxHealth());
-        if ((flags & WorkerEntity.FLAG_HUNGER) != 0) NeedIcons.draw(g, NeedIcons.Kind.FOOD, right, ny, menu.hunger());
-        if ((flags & WorkerEntity.FLAG_THIRST) != 0) NeedIcons.draw(g, NeedIcons.Kind.WATER, right, ny + 11, menu.thirst());
+        float scale = 0.55f;
+        int bx = x + 8 + 6 * 18 + 3, by = y + WorkerInventoryMenu.EQUIP_Y;
+        g.pose().pushPose();
+        g.pose().translate(bx, by, 0);
+        g.pose().scale(scale, scale, 1);
+        int row = 0;
+        NeedIcons.drawHealth(g, 0, 0, menu.health(), menu.maxHealth());
+        if ((flags & WorkerEntity.FLAG_HUNGER) != 0) NeedIcons.draw(g, NeedIcons.Kind.FOOD, 0, ++row * 11, menu.hunger());
+        if ((flags & WorkerEntity.FLAG_THIRST) != 0) NeedIcons.draw(g, NeedIcons.Kind.WATER, 0, ++row * 11, menu.thirst());
+        g.pose().popPose();
     }
 
     @Override

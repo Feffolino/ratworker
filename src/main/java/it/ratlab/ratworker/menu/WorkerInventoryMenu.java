@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * Slot positions match WorkerInventoryScreen.
  */
 public class WorkerInventoryMenu extends AbstractContainerMenu {
-    public static final int EQUIP_Y = 20, NEEDS_Y = 40, STORE_Y = 72, PLAYER_Y = 142, HOTBAR_Y = 200;
+    public static final int EQUIP_Y = 20, STORE_Y = 50, PLAYER_Y = 122, HOTBAR_Y = 180;
     private static final int EQUIP = 6, STORE = 27;
 
     @Nullable private final WorkerEntity worker;
