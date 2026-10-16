@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "create:hand_crank", "required": false }
+  ]
+}

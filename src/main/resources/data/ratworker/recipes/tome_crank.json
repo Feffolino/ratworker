@@ -1,0 +1,10 @@
+{
+  "conditions": [ { "type": "forge:mod_loaded", "modid": "create" } ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:book" },
+    { "item": "create:hand_crank" },
+    { "item": "create:andesite_alloy" }
+  ],
+  "result": { "item": "ratworker:tome", "nbt": "{Task:\"ratworker:crank\"}" }
+}

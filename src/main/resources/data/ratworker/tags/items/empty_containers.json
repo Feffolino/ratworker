@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:glass_bottle",
+    "minecraft:bucket",
+    "minecraft:bowl",
+    { "id": "thirstcanteen:leather_canteen", "required": false },
+    { "id": "thirstcanteen:military_bottle", "required": false },
+    { "id": "thirstcanteen:dragon_bottle", "required": false },
+    { "id": "thirst:clay_bowl", "required": false },
+    { "id": "thirst:terracotta_bowl", "required": false }
+  ]
+}

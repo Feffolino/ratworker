@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:book" },
+    { "item": "minecraft:iron_hoe" },
+    { "item": "minecraft:wheat_seeds" }
+  ],
+  "result": { "item": "ratworker:tome", "nbt": "{Task:\"ratworker:farm\"}" }
+}

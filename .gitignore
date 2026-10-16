@@ -1,0 +1,9 @@
+.gradle/
+build/
+run/
+.idea/
+*.iml
+out/
+# third-party jars used only for compiling (take them from your instance mods/)
+libs/*.jar
+PUBLISH_CURSEFORGE.md

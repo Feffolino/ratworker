@@ -1,0 +1,7 @@
+{
+  "skins": [
+    { "texture": "ratworker:textures/entity/worker/worker_1.png", "slim": false },
+    { "texture": "ratworker:textures/entity/worker/worker_2.png", "slim": true },
+    { "texture": "ratworker:textures/entity/worker/worker_3.png", "slim": false }
+  ]
+}
